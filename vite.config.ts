@@ -1,15 +1,17 @@
-import path from "path"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-import { inspectAttr } from 'kimi-plugin-inspect-react'
+import { inspectAttr } from "kimi-plugin-inspect-react"
 
-// https://vite.dev/config/
+const rootDir = path.dirname(fileURLToPath(import.meta.url))
+
 export default defineConfig({
   base: './',
   plugins: [inspectAttr(), react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": rootDir,
     },
   },
-});
+})
