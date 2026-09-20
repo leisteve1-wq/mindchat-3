@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Offline - MindChat</title>
+  <style>
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a2e;
+      --text-primary: #eaeaea;
+      --text-secondary: #a0a0a0;
+      --accent-primary: #6366f1;
+      --accent-secondary: #8b5cf6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .offline-container {
+      text-align: center;
+      max-width: 400px;
+    }
+    
+    .offline-icon {
+      font-size: 80px;
+      margin-bottom: 24px;
+    }
+    
+    .offline-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .offline-message {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .offline-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn {
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .cached-features {
+      margin-top: 32px;
+      padding: 20px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      text-align: left;
+    }
+    
+    .cached-features h3 {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .cached-features ul {
+      list-style: none;
+    }
+    
+    .cached-features li {
+      padding: 8px 0;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .cached-features li::before {
+      content: '✓';
+      color: #10b981;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">📡</div>
+    <h1 class="offline-title">You're Offline</h1>
+    <p class="offline-message">
+      It looks like you've lost your internet connection. Don't worry - MindChat has your back with offline access to your saved content.
+    </p>
+    
+    <div class="offline-actions">
+      <button class="btn btn-primary" onclick="window.location.reload()">
+        Try Again
+      </button>
+      <button class="btn btn-secondary" onclick="window.location.href='/'">
+        Go to Home
+      </button>
+    </div>
+    
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>Waiting for connection...</span>
+    </div>
+    
+    <div class="cached-features">
+      <h3>Available Offline</h3>
+      <ul>
+        <li>Your journal entries</li>
+        <li>Mood history</li>
+        <li>Saved breathing exercises</li>
+        <li>Previous chat messages</li>
+        <li>Psychology lessons</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Check for online status
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+    
+    // Update status indicator
+    function updateStatus() {
+      const dot = document.querySelector('.status-dot');
+      const text = document.querySelector('.status-indicator span:last-child');
+      
+      if (navigator.onLine) {
+        dot.style.background = '#10b981';
+        text.textContent = 'Back online! Reloading...';
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    }
+    
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
+</body>
+</html>
